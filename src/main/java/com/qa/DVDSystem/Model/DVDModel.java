@@ -2,7 +2,11 @@ package com.qa.DVDSystem.Model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "DVD's")
@@ -18,6 +22,22 @@ public class DVDModel {
 	
 	@Column(nullable=false)
 	private String serialNo;
+	
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "account_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE )
+	@JsonIgnore
+	private AccountModel accounts; 
+	
+
+	public AccountModel getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(AccountModel accounts) {
+		this.accounts = accounts;
+	}
 
 	public Long getId() {
 		return id;
